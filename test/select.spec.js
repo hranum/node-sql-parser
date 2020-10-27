@@ -66,6 +66,11 @@ describe('select', () => {
     })
   })
 
+  it('should support use index', () => {
+    const ast = parser.astify('select SOME_COLUMN from TABLE_NAME USE INDEX (SOME_COLUMN) where ID_COLUMN = 0 for update');
+    expect(parser.sqlify(ast)).to.eql('SELECT `SOME_COLUMN` FROM `TABLE_NAME` USE INDEX (\'SOME_COLUMN\') WHERE `ID_COLUMN` = 0 FOR UPDATE');
+  });
+  
   it('should support for update', () => {
     const ast = parser.astify('select SOME_COLUMN from TABLE_NAME where ID_COLUMN = 0 for update');
     expect(parser.sqlify(ast)).to.eql('SELECT `SOME_COLUMN` FROM `TABLE_NAME` WHERE `ID_COLUMN` = 0 FOR UPDATE');

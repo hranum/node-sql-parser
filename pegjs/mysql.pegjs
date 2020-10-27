@@ -80,6 +80,7 @@
 
     'UNION': true,
     'UPDATE': true,
+    'USE' : true,
     'USING': true,
 
     'VALUES': true,
@@ -907,6 +908,7 @@ select_stmt_nake
     d:KW_DISTINCT?      __
     c:column_clause     __
     f:from_clause?      __
+    ui:use_index_clause? __
     w:where_clause?     __
     g:group_by_clause?  __
     h:having_clause?    __
@@ -927,6 +929,7 @@ select_stmt_nake
           orderby: o,
           limit: l,
           for_update: fu && `${fu[0]} ${fu[2][0]}`,
+          use_index: ui,
       };
   }
 
@@ -991,6 +994,15 @@ alias_clause
 
 from_clause
   = KW_FROM __ l:table_ref_list { return l; }
+
+use_index_clause
+  = uic:KW_USE_INDEX __ LPAREN __ head:ident_name tail:(__ COMMA __ ident_name)* __ RPAREN {
+      const result = [{type: 'string', value: head}];
+      for (let i = 0; i < tail.length; i++) {
+        result.push({type: 'string', value: tail[i][1]});
+      }
+      return result;
+    }
 
 table_to_list
   = head:table_to_item tail:(__ COMMA __ table_to_item)* {
@@ -1173,6 +1185,7 @@ number_or_param
 
 limit_clause
   = KW_LIMIT __ i1:(number_or_param) __ tail:((COMMA / KW_OFFSET) __ number_or_param)? {
+      console.log(i1, tail);
       const res = [i1];
       if (tail) res.push(tail[2]);
       return {
@@ -1956,6 +1969,7 @@ KW_FALSE    = "FALSE"i      !ident_start
 KW_SHOW     = "SHOW"i       !ident_start
 KW_DROP     = "DROP"i       !ident_start { return 'DROP'; }
 KW_USE      = "USE"i        !ident_start
+KW_USE_INDEX = "USE INDEX"i !ident_start
 KW_ALTER    = "ALTER"i      !ident_start
 KW_SELECT   = "SELECT"i     !ident_start
 KW_UPDATE   = "UPDATE"i     !ident_start
