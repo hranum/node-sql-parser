@@ -380,6 +380,7 @@ describe('select', () => {
               having: null,
               orderby: null,
               limit: null,
+              use_index: null,
           },
           parentheses: true
         },
@@ -447,6 +448,7 @@ describe('select', () => {
                 having: null,
                 orderby: null,
                 limit: null,
+                use_index: null,
               },
               parentheses: true
             },
@@ -588,6 +590,7 @@ describe('select', () => {
               having: null,
               orderby: null,
               limit: null,
+              use_index: null,
             },
             parentheses: true
           }
@@ -800,6 +803,7 @@ describe('select', () => {
           having: null,
           orderby: null,
           limit: null,
+          use_index: null,
           parentheses: true
         }
       });

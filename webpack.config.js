@@ -119,7 +119,7 @@ function buildConfig(parserName, target, entry, plugins) {
         watch,
         target,
         mode: isProd ? 'production' : 'development',
-        node: { __dirname: false },
+        node: { __dirname: true },
         module: moduleCfg,
         resolve: { extensions: ['.js', '.pegjs'] },
         plugins: getPlugins(parserName, target, plugins),

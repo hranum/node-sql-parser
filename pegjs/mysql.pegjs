@@ -1185,7 +1185,6 @@ number_or_param
 
 limit_clause
   = KW_LIMIT __ i1:(number_or_param) __ tail:((COMMA / KW_OFFSET) __ number_or_param)? {
-      console.log(i1, tail);
       const res = [i1];
       if (tail) res.push(tail[2]);
       return {
